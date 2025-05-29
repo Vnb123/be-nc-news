@@ -1,3 +1,3 @@
 # NC News Seeding
 
-- Instructions for this sprint can be found at https://l2c.northcoders.com/courses/be/seeding-nc-news
+- create .env.test and .env.development files inside the project. Connect databases to both files using PGDATABASE. Make sure to set .gitignore file to ignore these.
