@@ -1,6 +1,10 @@
 const db = require("../connection");
 const format = require("pg-format");
-const { convertTimestampToDate } = require("./utils.js");
+const {
+  convertTimestampToDate,
+  lookUpObj,
+  createLookUpObj,
+} = require("./utils.js");
 
 const seed = ({ topicData, userData, articleData, commentData }) => {
   return db
@@ -109,16 +113,19 @@ const seed = ({ topicData, userData, articleData, commentData }) => {
 
       return db.query(sqlString);
     })
-    .then(() => {
+    .then(({ rows }) => {
+      const key = "title";
+      const value = "article_id";
+      const lookUpObj = createLookUpObj(rows, key, value);
       const formattedCommentsValues = commentData.map((comment) => {
-        const { body, votes, author, created_at } =
+        const { article_title, body, votes, author, created_at } =
           convertTimestampToDate(comment);
 
-        return [body, votes, author, created_at];
+        return [lookUpObj[article_title], body, votes, author, created_at];
       });
 
       const sqlString = format(
-        `INSERT INTO comments( body, votes, author, created_at) VALUES %L RETURNING *`,
+        `INSERT INTO comments( article_id, body, votes, author, created_at) VALUES %L RETURNING *`,
         formattedCommentsValues
       );
 
