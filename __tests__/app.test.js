@@ -24,15 +24,40 @@ describe("GET /api", () => {
   });
 });
 describe("/api/topics", () => {
-  test("GET - 200: Responds with an an object with the key of topics and the value of an array of topic objects", () => {
+  test("GET - 200: Responds with an an object with the key of topics and the value of an array of topic objects with specific properties", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
       .then(({ body }) => {
-        expect(body.length).not.toBe(0);
-        body.forEach((topic) => {
+        const { topics } = body;
+        expect(topics.length).not.toBe(0);
+
+        topics.forEach((topic) => {
           expect(typeof topic.slug).toBe("string");
           expect(typeof topic.description).toBe("string");
+          expect(topic).not.toHaveProperty("img_url");
+        });
+      });
+  });
+});
+describe("/api/articles", () => {
+  test("GET - 200: Responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles.length).not.toBe(0);
+        articles.forEach((article) => {
+          expect(typeof article.article_id).toBe("number");
+          expect(typeof article.title).toBe("string");
+          expect(typeof article.topic).toBe("string");
+          expect(typeof article.author).toBe("string");
+          expect(article).not.toHaveProperty("body");
+          expect(typeof article.created_at).toBe("string");
+          expect(typeof article.votes).toBe("number");
+          expect(typeof article.article_img_url).toBe("string");
+          expect(typeof article.comment_count).toBe("string");
         });
       });
   });
