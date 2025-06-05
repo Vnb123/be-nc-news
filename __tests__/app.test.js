@@ -62,3 +62,19 @@ describe("/api/articles", () => {
       });
   });
 });
+describe("/api/users", () => {
+  test("GET - 200: Responds with an object with the key of users and the value of an array of objects with all of its properties", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then(({ body }) => {
+        const { users } = body;
+        expect(users.length).not.toBe(0);
+        users.forEach((user) => {
+          expect(typeof user.username).toBe("string");
+          expect(typeof user.name).toBe("string");
+          expect(typeof user.avatar_url).toBe("string");
+        });
+      });
+  });
+});

@@ -1,4 +1,8 @@
-const { selectTopics, selectArticles } = require("../models/news.models");
+const {
+  selectTopics,
+  selectArticles,
+  selectUsers,
+} = require("../models/news.models");
 
 const getTopics = (request, response) => {
   selectTopics().then((topics) => {
@@ -12,4 +16,10 @@ const getArticles = (request, response) => {
   });
 };
 
-module.exports = { getTopics, getArticles };
+const getUsers = (request, response) => {
+  selectUsers().then((users) => {
+    response.status(200).send({ users });
+  });
+};
+
+module.exports = { getTopics, getArticles, getUsers };
