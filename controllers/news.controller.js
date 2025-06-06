@@ -2,6 +2,7 @@ const {
   selectTopics,
   selectArticles,
   selectUsers,
+  selectArticleById,
 } = require("../models/news.models");
 
 const getTopics = (request, response) => {
@@ -10,10 +11,15 @@ const getTopics = (request, response) => {
   });
 };
 
-const getArticles = (request, response) => {
-  selectArticles().then((articles) => {
-    response.status(200).send({ articles });
-  });
+const getArticles = (request, response, next) => {
+  const { article_id } = request.query;
+  selectArticles(article_id)
+    .then((articles) => {
+      response.status(200).send({ articles });
+    })
+    .catch((err) => {
+      next(err);
+    });
 };
 
 const getUsers = (request, response) => {

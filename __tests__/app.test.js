@@ -78,3 +78,33 @@ describe("/api/users", () => {
       });
   });
 });
+describe("/api/articles/:article_id", () => {
+  test("GET - 200: Responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
+    return request(app)
+      .get("/api/articles?article_id=4")
+      .expect(200)
+      .then(({ body }) => {
+        const { articles } = body;
+        expect(articles.length).not.toBe(0);
+        articles.forEach((article) => {
+          expect(article.article_id).toBe(4);
+        });
+      });
+  });
+  test("404 - responds with an error message if category does not exist", () => {
+    return request(app)
+      .get("/api/articles?article_id=99")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+  test("400 - responds with an error message when recieving an invalid input", () => {
+    return request(app)
+      .get("/api/articles?article_id=notAnId")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+});

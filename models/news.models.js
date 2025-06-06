@@ -6,14 +6,25 @@ const selectTopics = () => {
   });
 };
 
-const selectArticles = () => {
-  return db
-    .query(
-      `SELECT articles.article_id, title, topic, articles.author, articles.created_at, articles.votes, article_img_url, COUNT (comments.article_id) as comment_count FROM articles LEFT JOIN comments ON (articles.article_id = comments.article_id) GROUP BY articles.article_id ORDER BY articles.created_at DESC`
-    )
-    .then(({ rows }) => {
-      return rows;
-    });
+const selectArticles = (article_id) => {
+  if (article_id) {
+    return db
+      .query("SELECT * FROM articles WHERE article_id = $1;", [article_id])
+      .then(({ rows }) => {
+        if (!rows.length) {
+          return Promise.reject({ status: 404, msg: "not found" });
+        }
+        return rows;
+      });
+  } else {
+    return db
+      .query(
+        `SELECT articles.article_id, title, topic, articles.author, articles.created_at, articles.votes, article_img_url, COUNT (comments.article_id) as comment_count FROM articles LEFT JOIN comments ON (articles.article_id = comments.article_id) GROUP BY articles.article_id ORDER BY articles.created_at DESC`
+      )
+      .then(({ rows }) => {
+        return rows;
+      });
+  }
 };
 
 const selectUsers = () => {
@@ -21,4 +32,9 @@ const selectUsers = () => {
     return rows;
   });
 };
-module.exports = { selectTopics, selectArticles, selectUsers };
+
+module.exports = {
+  selectTopics,
+  selectArticles,
+  selectUsers,
+};
