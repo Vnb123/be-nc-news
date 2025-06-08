@@ -33,8 +33,22 @@ const selectUsers = () => {
   });
 };
 
+const selectComments = (article_id) => {
+  const queryParams = [];
+  let queryString = `SELECT * FROM comments `;
+  if (article_id) {
+    queryParams.push(article_id);
+    queryString += ` WHERE article_id = $${queryParams.length} `;
+  }
+  queryString += ` ORDER BY created_at DESC`;
+  return db.query(queryString, queryParams).then(({ rows }) => {
+    return rows;
+  });
+};
+
 module.exports = {
   selectTopics,
   selectArticles,
   selectUsers,
+  selectComments,
 };
