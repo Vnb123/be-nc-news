@@ -1,19 +1,21 @@
-const handlePostgressErrors = (err, request, responds, next) => {
+const handlePostgressErrors = (err, request, response, next) => {
   if (err.code === "22P02") {
-    responds.status(400).send({ msg: "bad request" });
-  }
-};
-
-const handleCustomErrors = (err, request, responds, next) => {
-  if (err.status && err.msg) {
-    responds.status(err.status).send({ msg: err.msg });
+    response.status(400).send({ msg: "bad request" });
   } else {
     next(err);
   }
 };
 
-const handleServerErrors = (err, request, responds, next) => {
-  responds.status(500).send({ msg: "Internal server error" });
+const handleCustomErrors = (err, request, response, next) => {
+  if (err.status && err.msg) {
+    response.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
+  }
+};
+
+const handleServerErrors = (err, request, response, next) => {
+  response.status(500).send({ msg: "Internal server error" });
 };
 
 module.exports = {

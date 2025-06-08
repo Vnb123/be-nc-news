@@ -81,7 +81,7 @@ describe("/api/users", () => {
 describe("/api/articles/:article_id", () => {
   test("GET - 200: Responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
     return request(app)
-      .get("/api/articles?article_id=4")
+      .get("/api/articles/4")
       .expect(200)
       .then(({ body }) => {
         const { articles } = body;
@@ -91,9 +91,9 @@ describe("/api/articles/:article_id", () => {
         });
       });
   });
-  test("404 - responds with an error message if category does not exist", () => {
+  test("404 - responds with an error message if article_id does not exist", () => {
     return request(app)
-      .get("/api/articles?article_id=99")
+      .get("/api/articles/99")
       .expect(404)
       .then(({ body }) => {
         expect(body.msg).toBe("not found");
@@ -101,10 +101,54 @@ describe("/api/articles/:article_id", () => {
   });
   test("400 - responds with an error message when recieving an invalid input", () => {
     return request(app)
-      .get("/api/articles?article_id=notAnId")
+      .get("/api/articles/notAnId")
       .expect(400)
       .then(({ body }) => {
         expect(body.msg).toBe("bad request");
+      });
+  });
+});
+describe("/api/articles/:article_id/comments", () => {
+  test("GET - 200: Responds with an object with a key of comments and the value of an array of comments for the given article_id in descending order", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments.length).not.toBe(0);
+        comments.forEach((comment) => {
+          expect(typeof comment.comment_id).toBe("number");
+          expect(comment.article_id).toBe(1);
+          expect(typeof comment.body).toBe("string");
+          expect(typeof comment.votes).toBe("number");
+          expect(typeof comment.author).toBe("string");
+          expect(typeof comment.created_at).toBe("string");
+        });
+      });
+  });
+  test("404 - responds with an error message if article_id does not exist", () => {
+    return request(app)
+      .get("/api/articles/99/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+  test("400 - responds with an error message when recieving an invalid input", () => {
+    return request(app)
+      .get("/api/articles/notAnId/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test("200 - responds with an empty array if article_id exists but there are no comments", () => {
+    return request(app)
+      .get("/api/articles/4/comments")
+      .expect(200)
+      .then(({ body }) => {
+        const { comments } = body;
+        expect(comments).toEqual([]);
       });
   });
 });

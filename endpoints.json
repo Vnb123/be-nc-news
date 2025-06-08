@@ -54,5 +54,20 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves comments of an article matching the article_id",
+    "exampleResponse": {
+      "comments": [
+        {
+          "comment_id": "",
+          "article_id": "",
+          "body": "",
+          "votes": "",
+          "author": "",
+          "created_at": ""
+        }
+      ]
+    }
   }
 }
