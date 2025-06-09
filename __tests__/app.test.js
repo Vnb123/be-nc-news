@@ -14,7 +14,7 @@ afterAll(() => {
 });
 
 describe("GET /api", () => {
-  test("200: Responds with an object detailing the documentation for each endpoint", () => {
+  test("200: responds with an object detailing the documentation for each endpoint", () => {
     return request(app)
       .get("/api")
       .expect(200)
@@ -24,7 +24,7 @@ describe("GET /api", () => {
   });
 });
 describe("GET /api/topics", () => {
-  test("200: Responds with an an object with the key of topics and the value of an array of topic objects with specific properties", () => {
+  test("200: responds with an an object with the key of topics and the value of an array of topic objects with specific properties", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -41,7 +41,7 @@ describe("GET /api/topics", () => {
   });
 });
 describe("GET /api/articles", () => {
-  test("200: Responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
+  test("200: responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -63,7 +63,7 @@ describe("GET /api/articles", () => {
   });
 });
 describe("GET /api/users", () => {
-  test("200: Responds with an object with the key of users and the value of an array of objects with all of its properties", () => {
+  test("200: responds with an object with the key of users and the value of an array of objects with all of its properties", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -79,7 +79,7 @@ describe("GET /api/users", () => {
   });
 });
 describe("GET /api/articles/:article_id", () => {
-  test("200: Responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
+  test("200: responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
     return request(app)
       .get("/api/articles/4")
       .expect(200)
@@ -230,4 +230,30 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(body.msg).toBe("not found");
       });
   });
+});
+describe("DELETE /api/comments/:comment_id", () => {
+  test("204: delete the given comment by comment_id", () => {
+    return request(app)
+      .delete("/api/comments/8")
+      .expect(204)
+      .then(({ body }) => {
+        expect(body).toEqual({});
+      });
+  });
+});
+test("404: respond with an error when attempting to delete a resource that doesn't exist", () => {
+  return request(app)
+    .delete("/api/comments/99")
+    .expect(404)
+    .then(({ body }) => {
+      expect(body.msg).toBe("not found");
+    });
+});
+test("400: respond with an error when attempting to delete a comment referenced by an invalid ID", () => {
+  return request(app)
+    .delete("/api/comments/notAnId")
+    .expect(400)
+    .then(({ body }) => {
+      expect(body.msg).toBe("bad request");
+    });
 });

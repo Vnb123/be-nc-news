@@ -1,4 +1,4 @@
-const isCommentDataIncorrect = (username, body) => {
+const isValidCommentData = (username, body) => {
   if (
     !username ||
     typeof username !== "string" ||
@@ -11,4 +11,4 @@ const isCommentDataIncorrect = (username, body) => {
   }
 };
 
-module.exports = { isCommentDataIncorrect };
+module.exports = { isValidCommentData };

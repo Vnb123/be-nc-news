@@ -11,14 +11,25 @@ const fetchArticles = (article_id) => {
     });
 };
 
-const fetchUsername = (username) => {
+const fetchUsernames = (username) => {
   return db
     .query(`SELECT * FROM users WHERE username = $1`, [username])
     .then(({ rows }) => {
-      if (rows.length === 0) {
+      if (!rows.length) {
         return Promise.reject({ status: 404, msg: "not found" });
       }
     });
 };
 
-module.exports = { fetchArticles, fetchUsername };
+const fetchComments = (comment_id) => {
+  return db
+    .query(`SELECT * FROM comments WHERE comment_id = $1;`, [comment_id])
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: "not found" });
+      }
+      return rows;
+    });
+};
+
+module.exports = { fetchArticles, fetchUsernames, fetchComments };

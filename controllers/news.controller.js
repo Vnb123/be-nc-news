@@ -3,11 +3,16 @@ const {
   selectArticles,
   selectUsers,
   selectComments,
-  insertComment,
+  insertComments,
   updateArticles,
+  removeComments,
 } = require("../models/news.model");
-const { fetchArticles, fetchUsername } = require("../models/validation.model");
-const { isCommentDataIncorrect } = require("../app-utils/correctData.js");
+const {
+  fetchArticles,
+  fetchUsernames,
+  fetchComments,
+} = require("../models/validation.model");
+const { isValidCommentData } = require("../app-utils/correctData.js");
 
 const getTopics = (request, response) => {
   selectTopics().then((topics) => {
@@ -48,17 +53,17 @@ const getComments = (request, response, next) => {
     });
 };
 
-const postComment = (request, response, next) => {
+const postComments = (request, response, next) => {
   const { article_id } = request.params;
   const { username, body } = request.body;
 
-  if (isCommentDataIncorrect(username, body)) {
+  if (isValidCommentData(username, body)) {
     return response.status(400).send({ msg: "bad request" });
   }
 
-  fetchUsername(username)
+  fetchUsernames(username)
     .then(() => {
-      return insertComment(article_id, username, body);
+      return insertComments(article_id, username, body);
     })
     .then((comment) => {
       response
@@ -87,11 +92,27 @@ const patchArticles = (request, response, next) => {
       next(err);
     });
 };
+
+const deleteComments = (request, response, next) => {
+  const { comment_id } = request.params;
+  fetchComments(comment_id)
+    .then(() => {
+      return removeComments(comment_id);
+    })
+    .then((comment) => {
+      response.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 module.exports = {
   getTopics,
   getArticles,
   getUsers,
   getComments,
-  postComment,
+  postComments,
   patchArticles,
+  deleteComments,
 };

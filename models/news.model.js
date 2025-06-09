@@ -46,7 +46,7 @@ const selectComments = (article_id) => {
   });
 };
 
-const insertComment = (article_id, username, body) => {
+const insertComments = (article_id, username, body) => {
   return db
     .query(
       `INSERT INTO comments(article_id, author, body) VALUES ($1, $2, $3) RETURNING *`,
@@ -67,11 +67,22 @@ const updateArticles = (article_id, inc_votes) => {
       return rows[0];
     });
 };
+
+const removeComments = (comment_id) => {
+  return db
+    .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *`, [
+      comment_id,
+    ])
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
 module.exports = {
   selectTopics,
   selectArticles,
   selectUsers,
   selectComments,
-  insertComment,
+  insertComments,
   updateArticles,
+  removeComments,
 };
