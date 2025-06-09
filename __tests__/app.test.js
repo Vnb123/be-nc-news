@@ -23,8 +23,8 @@ describe("GET /api", () => {
       });
   });
 });
-describe("/api/topics", () => {
-  test("GET - 200: Responds with an an object with the key of topics and the value of an array of topic objects with specific properties", () => {
+describe("GET /api/topics", () => {
+  test("200: Responds with an an object with the key of topics and the value of an array of topic objects with specific properties", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -40,8 +40,8 @@ describe("/api/topics", () => {
       });
   });
 });
-describe("/api/articles", () => {
-  test("GET - 200: Responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
+describe("GET /api/articles", () => {
+  test("200: Responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -62,8 +62,8 @@ describe("/api/articles", () => {
       });
   });
 });
-describe("/api/users", () => {
-  test("GET - 200: Responds with an object with the key of users and the value of an array of objects with all of its properties", () => {
+describe("GET /api/users", () => {
+  test("200: Responds with an object with the key of users and the value of an array of objects with all of its properties", () => {
     return request(app)
       .get("/api/users")
       .expect(200)
@@ -78,8 +78,8 @@ describe("/api/users", () => {
       });
   });
 });
-describe("/api/articles/:article_id", () => {
-  test("GET - 200: Responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
+describe("GET /api/articles/:article_id", () => {
+  test("200: Responds with an object with a key of article and the value of an article object containing data belonging to the relevant article_id ", () => {
     return request(app)
       .get("/api/articles/4")
       .expect(200)
@@ -91,7 +91,7 @@ describe("/api/articles/:article_id", () => {
         });
       });
   });
-  test("404 - responds with an error message if article_id does not exist", () => {
+  test("404: responds with an error message if article_id does not exist", () => {
     return request(app)
       .get("/api/articles/99")
       .expect(404)
@@ -99,7 +99,7 @@ describe("/api/articles/:article_id", () => {
         expect(body.msg).toBe("not found");
       });
   });
-  test("400 - responds with an error message when recieving an invalid input", () => {
+  test("400: responds with an error message when recieving an invalid input", () => {
     return request(app)
       .get("/api/articles/notAnId")
       .expect(400)
@@ -108,8 +108,8 @@ describe("/api/articles/:article_id", () => {
       });
   });
 });
-describe("/api/articles/:article_id/comments", () => {
-  test("GET - 200: Responds with an object with a key of comments and the value of an array of comments for the given article_id in descending order", () => {
+describe("GET /api/articles/:article_id/comments", () => {
+  test("200: Responds with an object with a key of comments and the value of an array of comments for the given article_id in descending order", () => {
     return request(app)
       .get("/api/articles/1/comments")
       .expect(200)
@@ -126,7 +126,7 @@ describe("/api/articles/:article_id/comments", () => {
         });
       });
   });
-  test("404 - responds with an error message if article_id does not exist", () => {
+  test("404: responds with an error message if article_id does not exist", () => {
     return request(app)
       .get("/api/articles/99/comments")
       .expect(404)
@@ -134,7 +134,7 @@ describe("/api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("not found");
       });
   });
-  test("400 - responds with an error message when recieving an invalid input", () => {
+  test("400: responds with an error message when recieving an invalid input", () => {
     return request(app)
       .get("/api/articles/notAnId/comments")
       .expect(400)
@@ -142,13 +142,53 @@ describe("/api/articles/:article_id/comments", () => {
         expect(body.msg).toBe("bad request");
       });
   });
-  test("200 - responds with an empty array if article_id exists but there are no comments", () => {
+  test("200: responds with an empty array if article_id exists but there are no comments", () => {
     return request(app)
       .get("/api/articles/4/comments")
       .expect(200)
       .then(({ body }) => {
         const { comments } = body;
         expect(comments).toEqual([]);
+      });
+  });
+});
+describe("POST /api/articles/:article_id/comments", () => {
+  test("201: Responds with a posted comment", () => {
+    return request(app)
+      .post("/api/articles/9/comments")
+      .send({ username: "rogersop", body: "Well what are they then?" })
+      .expect(201)
+      .then(({ body }) => {
+        const { username, body: commentBody } = body;
+        expect(username).toBe("rogersop");
+        expect(typeof commentBody).toBe("string");
+      });
+  });
+  test("400: responds with an error message when posting a comment without required fields", () => {
+    return request(app)
+      .post("/api/articles/9/comments")
+      .send({})
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test("400: responds with an error message when the value of the field is invalid", () => {
+    return request(app)
+      .post("/api/articles/9/comments")
+      .send({ username: 2534, body: {} })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test("404: responds with an error message when there is a foreign key violation", () => {
+    return request(app)
+      .post("/api/articles/9/comments")
+      .send({ username: "Meow250", body: "Oops" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
       });
   });
 });

@@ -60,14 +60,21 @@
     "exampleResponse": {
       "comments": [
         {
-          "comment_id": "",
-          "article_id": "",
-          "body": "",
-          "votes": "",
-          "author": "",
-          "created_at": ""
+          "comment_id": "146",
+          "article_id": "4",
+          "body": "Soluta autem fuga non alias. Odit eligendi voluptas reiciendis repudiandae reiciendis doloribus adipisci qui consequuntur. Et dignissimos unde optio. Recusandae aspernatur eius error. Eos autem et iusto sunt fuga ipsam omnis voluptatem rerum.",
+          "votes": "6",
+          "author": "jessjelly",
+          "created_at": "2020-10-12T12:23:00.000Z"
         }
       ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "posts a new comment",
+    "exampleResponse": {
+      "username": "grumpy19",
+      "body": "Well what are they then?"
     }
   }
 }

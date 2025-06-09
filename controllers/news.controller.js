@@ -3,8 +3,13 @@ const {
   selectArticles,
   selectUsers,
   selectComments,
+  insertComment,
 } = require("../models/news.model");
-const { fetchArticles } = require("../models/articles.model");
+const {
+  fetchArticles,
+  fetchUsername,
+  isCommentDataIncorrect,
+} = require("../models/articles.model");
 
 const getTopics = (request, response) => {
   selectTopics().then((topics) => {
@@ -45,4 +50,25 @@ const getComments = (request, response, next) => {
     });
 };
 
-module.exports = { getTopics, getArticles, getUsers, getComments };
+const postComment = (request, response, next) => {
+  const { article_id } = request.params;
+  const { username, body } = request.body;
+
+  if (isCommentDataIncorrect(username, body)) {
+    return response.status(400).send({ msg: "bad request" });
+  }
+
+  fetchUsername(username)
+    .then(() => {
+      return insertComment(article_id, username, body);
+    })
+    .then((comment) =>
+      response
+        .status(201)
+        .send({ username: comment.author, body: comment.body })
+    )
+    .catch((err) => {
+      next(err);
+    });
+};
+module.exports = { getTopics, getArticles, getUsers, getComments, postComment };

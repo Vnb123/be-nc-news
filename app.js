@@ -5,6 +5,7 @@ const {
   getArticles,
   getUsers,
   getComments,
+  postComment,
 } = require("./controllers/news.controller");
 const { getApi } = require("./controllers/api.controller");
 
@@ -27,6 +28,8 @@ app.get("/api/users", getUsers);
 app.get("/api/articles/:article_id", getArticles);
 
 app.get("/api/articles/:article_id/comments", getComments);
+
+app.post("/api/articles/:article_id/comments", postComment);
 
 app.use(handlePostgressErrors);
 
