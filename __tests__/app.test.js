@@ -192,3 +192,42 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+describe("PATCH /api/articles/:article_id", () => {
+  test("200: responds with an increase in votes in the article when updated", () => {
+    return request(app)
+      .patch("/api/articles/2")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article.votes).toBe(1);
+      });
+  });
+  test("200: responds with a decrease in votes in the article when updated", () => {
+    return request(app)
+      .patch("/api/articles/2")
+      .send({ inc_votes: -1 })
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        expect(article.votes).toBe(-1);
+      });
+  });
+  test("400: responds with an error when attempting to update a body with invalid fields", () => {
+    return request(app)
+      .patch("/api/articles/2")
+      .send({ inc_votes: "hello" })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test("404: responds with an error message if article_id does not exist", () => {
+    return request(app)
+      .get("/api/articles/99/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+});

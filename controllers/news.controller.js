@@ -4,12 +4,10 @@ const {
   selectUsers,
   selectComments,
   insertComment,
+  updateArticles,
 } = require("../models/news.model");
-const {
-  fetchArticles,
-  fetchUsername,
-  isCommentDataIncorrect,
-} = require("../models/articles.model");
+const { fetchArticles, fetchUsername } = require("../models/validation.model");
+const { isCommentDataIncorrect } = require("../app-utils/correctData.js");
 
 const getTopics = (request, response) => {
   selectTopics().then((topics) => {
@@ -62,13 +60,38 @@ const postComment = (request, response, next) => {
     .then(() => {
       return insertComment(article_id, username, body);
     })
-    .then((comment) =>
+    .then((comment) => {
       response
         .status(201)
-        .send({ username: comment.author, body: comment.body })
-    )
+        .send({ username: comment.author, body: comment.body });
+    })
     .catch((err) => {
       next(err);
     });
 };
-module.exports = { getTopics, getArticles, getUsers, getComments, postComment };
+
+const patchArticles = (request, response, next) => {
+  const { article_id } = request.params;
+  const { inc_votes } = request.body;
+  if (typeof inc_votes !== "number") {
+    return response.status(400).send({ msg: "bad request" });
+  }
+  fetchArticles(article_id)
+    .then(() => {
+      return updateArticles(article_id, inc_votes);
+    })
+    .then((article) => {
+      response.status(200).send({ article });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+module.exports = {
+  getTopics,
+  getArticles,
+  getUsers,
+  getComments,
+  postComment,
+  patchArticles,
+};
