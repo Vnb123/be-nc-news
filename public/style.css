@@ -1,0 +1,19 @@
+html {
+  font-family: sans-serif;
+}
+
+.code-block {
+  color: black;
+  background-color: #d3d3d3;
+}
+
+#topics {
+  padding: 1rem;
+  margin: 1rem;
+}
+
+#articles {
+  box-sizing: content-box;
+  padding: 1.5px;
+  width: 100%;
+}
