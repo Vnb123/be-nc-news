@@ -7,32 +7,34 @@
     <title>NC News API Docs</title>
   </head>
   <body>
-    <header><h1>Introduction</h1></header>
-    <main>
-      <p>
-        NC News API is designed to be an interactive news interface where users
-        can search for and read articles, add and delete comments and vote on
-        them.
-      </p>
-
-      <nav>
-        <ul>
-          <li><a href="#Topics">Topics</a></li>
-          <li><a href="#Articles">Articles</a></li>
-          <li><a href="#Users">Users</a></li>
-        </ul>
-      </nav>
-      <section id="Topics">
-        <h2>Topics</h2>
-        <h3>GET /api/topics</h3>
-        <p>This will be an object representing the topics.</p>
-        <pre><code><span class = "code-block" id="topics">topics": [{ "slug": "football", "description": "Footie!"}]</span></code></pre>
-      </section>
-      <section id="Articles">
-        <h2>Articles</h2>
-        <h3>GET /api/articles</h3>
-        <p>This will be an object representing the articles.</p>
-        <pre><code><span class = "code-block" id="articles">"articles": [
+    <div class="main-container">
+      <header><h1>Introduction</h1></header>
+      <main>
+        <p>
+          NC News API is designed to be an interactive news interface where
+          users can search for and read articles, add and delete comments and
+          vote on them.
+        </p>
+        <div class="nav">
+          <nav>
+            <ul>
+              <li><a href="#Topics">Topics</a></li>
+              <li><a href="#Articles">Articles</a></li>
+              <li><a href="#Users">Users</a></li>
+            </ul>
+          </nav>
+        </div>
+        <section id="Topics">
+          <h2>Topics</h2>
+          <h3>GET /api/topics</h3>
+          <p>This will be an object representing the topics.</p>
+          <pre><code><span class = "code-block" id="topics">"topics": [{ "slug": "football", "description": "Footie!"}]</span></code></pre>
+        </section>
+        <section id="Articles">
+          <h2>Articles</h2>
+          <h3>GET /api/articles</h3>
+          <p>This will be an object representing the articles.</p>
+          <pre><code><span class = "code-block" id="articles">"articles": [
         {
           "article_id": 33,
           "title": "Seafood substitutions are increasing",
@@ -43,9 +45,9 @@
           "article_img_url": "https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg?w=700&h=700|",
           "comment_count": 6
         }]</span></code></pre>
-        <h3>GET /api/articles/:article_id</h3>
-        <p>This will present an object of articles matching he article_id</p>
-        <pre><code><span class = "code-block">"articles": [
+          <h3>GET /api/articles/:article_id</h3>
+          <p>This will present an object of articles matching he article_id</p>
+          <pre><code><span class = "code-block">"article": 
         {
           "article_id": 4,
           "title": "Making sense of Redux",
@@ -55,12 +57,12 @@
           "created_at": "2020-09-11T21:12:00.000Z",
           "votes": 0,
           "article_img_url": "https://images.pexels.com/photos/4974912/pexels-photo-4974912.jpeg?w=700&h=700"
-        }]</span></code></pre>
-        <h3>GET /api/articles/:article_id/comments</h3>
-        <p>
-          This will show all of the comments of an article matching article_id
-        </p>
-        <pre><code> <span class = "code-block"> "comments": [
+        }</span></code></pre>
+          <h3>GET /api/articles/:article_id/comments</h3>
+          <p>
+            This will show all of the comments of an article matching article_id
+          </p>
+          <pre><code> <span class = "code-block"> "comments": [
         {
           "comment_id": "146",
           "article_id": "4",
@@ -70,18 +72,18 @@
           "created_at": "2020-10-12T12:23:00.000Z"
         }
       ]</span></code></pre>
-        <h3>POST /api/articles/:article_id/comments</h3>
-        <p>This will post a new comment on an article matching article_id</p>
-        <pre><code><span class = "code-block">
+          <h3>POST /api/articles/:article_id/comments</h3>
+          <p>This will post a new comment on an article matching article_id</p>
+          <pre><code><span class = "code-block">
             {
       "username": "grumpy19",
       "body": "Well what are they then?"
        }</span></code></pre>
-        <h3>PATCH /api/articles/:article_id</h3>
-        <p>
-          This will update the votes on the article with matching article_id
-        </p>
-        <pre><code><span class = "code-block">"article": [
+          <h3>PATCH /api/articles/:article_id</h3>
+          <p>
+            This will update the votes on the article with matching article_id
+          </p>
+          <pre><code><span class = "code-block">"article": [
         {
           "article_id": 2,
           "title": "The Rise Of Thinking Machines: How IBM's Watson Takes On The World",
@@ -92,25 +94,26 @@
           "votes": 1,
           "article_img_url": "https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg?w=700&h=700"
         }]</span></code></pre>
-        <h3>DELETE /api/comments/:comment_id</h3>
-        <p>This will delete all of the comments of a matching comment_id</p>
-        <pre><code><span class = "code-block">
+          <h3>DELETE /api/comments/:comment_id</h3>
+          <p>This will delete all of the comments of a matching comment_id</p>
+          <pre><code><span class = "code-block">
             {
             "body": null
             }</span></code></pre>
-      </section>
-      <section id="Users">
-        <h2>Users</h2>
-        <h3>GET /api/users</h3>
-        <p>This will be an object representing all users.</p>
-        <pre><code><span class = "code-block">"users": [
+        </section>
+        <section id="Users">
+          <h2>Users</h2>
+          <h3>GET /api/users</h3>
+          <p>This will be an object representing all users.</p>
+          <pre><code><span class = "code-block">"users": [
         {
           "username": "happyamy2016",
           "name": "Amy Happy",
           "avatar_url": "https://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729"
         }
       ]</span></code></pre>
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
   </body>
 </html>

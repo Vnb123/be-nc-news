@@ -41,7 +41,7 @@ describe("GET /api/topics", () => {
   });
 });
 describe("GET /api/articles", () => {
-  test("200: responds with an object with the key of articles and the value of an varray of article objects with specific properties", () => {
+  test("200: responds with an object with the key of articles and the value of an array of article objects with specific properties", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -84,11 +84,8 @@ describe("GET /api/articles/:article_id", () => {
       .get("/api/articles/4")
       .expect(200)
       .then(({ body }) => {
-        const { articles } = body;
-        expect(articles.length).not.toBe(0);
-        articles.forEach((article) => {
-          expect(article.article_id).toBe(4);
-        });
+        const { article } = body;
+        expect(article.article_id).toBe(4);
       });
   });
   test("404: responds with an error message if article_id does not exist", () => {

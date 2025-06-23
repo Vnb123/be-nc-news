@@ -24,7 +24,12 @@ const getArticles = (request, response, next) => {
   const { article_id } = request.params;
   selectArticles(article_id)
     .then((articles) => {
-      response.status(200).send({ articles });
+      if (article_id) {
+        const article = articles[0];
+        response.status(200).send({ article });
+      } else {
+        response.status(200).send({ articles });
+      }
     })
     .catch((err) => {
       next(err);

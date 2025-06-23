@@ -1,19 +1,38 @@
-html {
+html,
+body {
   font-family: sans-serif;
+
+  overflow: visible;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1em;
 }
 
+.main-container {
+  width: 50%;
+  margin: 0 auto;
+  /* border: 5px solid green; */
+  padding: 10px;
+  box-sizing: border-box;
+}
 .code-block {
+  display: grid;
+  justify-content: center;
+  margin: 1em;
+  padding: 1em;
+  border-radius: 5px;
+  /* border: 2px solid red; */
   color: black;
-  background-color: #d3d3d3;
+  background-color: #f3f3f3;
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
-#topics {
-  padding: 1rem;
-  margin: 1rem;
-}
-
-#articles {
-  box-sizing: content-box;
-  padding: 1.5px;
-  width: 100%;
+.nav {
+  text-align: left;
 }
