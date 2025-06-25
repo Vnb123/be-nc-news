@@ -211,6 +211,17 @@ describe("PATCH /api/articles/:article_id", () => {
         expect(article.votes).toBe(-1);
       });
   });
+  test("200: Responds with an ignored patch request if no body is found, and sends back unchanged article to the user", () => {
+    return request(app)
+      .patch("/api/articles/2")
+      .send({})
+      .expect(200)
+      .then(({ body }) => {
+        const { article } = body;
+        console.log(article);
+        expect(article.votes).toBe(0);
+      });
+  });
   test("400: responds with an error when attempting to update a body with invalid fields", () => {
     return request(app)
       .patch("/api/articles/2")

@@ -83,6 +83,15 @@ const postComments = (request, response, next) => {
 const patchArticles = (request, response, next) => {
   const { article_id } = request.params;
   const { inc_votes } = request.body;
+  if (inc_votes === undefined) {
+    return fetchArticles(article_id)
+      .then((article) => {
+        response.status(200).send({ article });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
   if (typeof inc_votes !== "number") {
     return response.status(400).send({ msg: "bad request" });
   }
