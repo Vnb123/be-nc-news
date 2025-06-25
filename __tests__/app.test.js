@@ -86,6 +86,7 @@ describe("GET /api/articles/:article_id", () => {
       .then(({ body }) => {
         const { article } = body;
         expect(article.article_id).toBe(4);
+        expect(article).toHaveProperty("body");
       });
   });
   test("404: responds with an error message if article_id does not exist", () => {
