@@ -218,7 +218,6 @@ describe("PATCH /api/articles/:article_id", () => {
       .expect(200)
       .then(({ body }) => {
         const { article } = body;
-        console.log(article);
         expect(article.votes).toBe(0);
       });
   });
