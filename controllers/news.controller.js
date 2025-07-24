@@ -71,9 +71,7 @@ const postComments = (request, response, next) => {
       return insertComments(article_id, username, body);
     })
     .then((comment) => {
-      response
-        .status(201)
-        .send({ username: comment.author, body: comment.body });
+      response.status(201).send({ comments: [comment] });
     })
     .catch((err) => {
       next(err);

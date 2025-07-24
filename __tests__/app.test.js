@@ -157,9 +157,10 @@ describe("POST /api/articles/:article_id/comments", () => {
       .send({ username: "rogersop", body: "Well what are they then?" })
       .expect(201)
       .then(({ body }) => {
-        const { username, body: commentBody } = body;
-        expect(username).toBe("rogersop");
-        expect(typeof commentBody).toBe("string");
+        const comment = body.comments[0];
+        expect(comment).toHaveProperty("comment_id");
+        expect(comment.author).toBe("rogersop");
+        expect(typeof comment.body).toBe("string");
       });
   });
   test("400: responds with an error message when posting a comment without required fields", () => {
