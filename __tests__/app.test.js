@@ -266,3 +266,53 @@ test("400: respond with an error when attempting to delete a comment referenced 
       expect(body.msg).toBe("bad request");
     });
 });
+describe("PATCH /api/comments/:comment_id", () => {
+  test("200: responds with an increase in votes in the comment when updated", () => {
+    return request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment.votes).toBe(15);
+      });
+  });
+  test("200: responds with a decrease in votes in the comment when updated", () => {
+    return request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: -1 })
+      .expect(200)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment.votes).toBe(13);
+      });
+  });
+  test("200: Responds with an ignored patch request if no body is found, and sends back unchanged comment to the user", () => {
+    return request(app)
+      .patch("/api/comments/2")
+      .send({})
+      .expect(200)
+      .then(({ body }) => {
+        const { comment } = body;
+        expect(comment.votes).toBe(14);
+      });
+  });
+  test("400: responds with an error when attempting to update a body with invalid fields", () => {
+    return request(app)
+      .patch("/api/comments/2")
+      .send({ inc_votes: "hello" })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.msg).toBe("bad request");
+      });
+  });
+  test("404: responds with an error message if comments_id does not exist", () => {
+    return request(app)
+      .patch("/api/comments/99")
+      .send({ inc_votes: 1 })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.msg).toBe("not found");
+      });
+  });
+});
