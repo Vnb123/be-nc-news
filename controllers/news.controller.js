@@ -6,6 +6,7 @@ const {
   insertComments,
   updateArticles,
   removeComments,
+  updateComments,
 } = require("../models/news.model");
 const {
   fetchArticles,
@@ -119,6 +120,33 @@ const deleteComments = (request, response, next) => {
     });
 };
 
+const patchComments = (request, response, next) => {
+  const { comment_id } = request.params;
+  const { inc_votes } = request.body;
+  if (inc_votes === undefined) {
+    return fetchComments(comment_id)
+      .then((comments) => {
+        response.status(200).send({ comment: comments[0] });
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+  if (typeof inc_votes !== "number") {
+    return response.status(400).send({ msg: "bad request" });
+  }
+  return fetchComments(comment_id)
+    .then(() => {
+      return updateComments(comment_id, inc_votes);
+    })
+    .then((updatedComment) => {
+      response.status(200).send({ comment: updatedComment });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
 module.exports = {
   getTopics,
   getArticles,
@@ -127,4 +155,5 @@ module.exports = {
   postComments,
   patchArticles,
   deleteComments,
+  patchComments,
 };
