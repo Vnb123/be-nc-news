@@ -8,6 +8,7 @@ const {
   postComments,
   patchArticles,
   deleteComments,
+  patchComments,
 } = require("./controllers/news.controller");
 const { getApi } = require("./controllers/api.controller");
 
@@ -36,6 +37,8 @@ app.get("/api/articles/:article_id/comments", getComments);
 app.post("/api/articles/:article_id/comments", postComments);
 
 app.patch("/api/articles/:article_id", patchArticles);
+
+app.patch("/api/comments/:comment_id", patchComments);
 
 app.delete("/api/comments/:comment_id", deleteComments);
 
