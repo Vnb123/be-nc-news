@@ -1,58 +1,78 @@
-📰 NC News API
+# 📰 NC News API
 
-A RESTful API built with Node.js, Express, and PostgreSQL. It provides programmatic access to news articles, topics, users, and comments. Originally developed as part of a Northcoders bootcamp project.
+A RESTful backend API built with **Node.js**, **Express**, and **PostgreSQL**.  
+Provides programmatic access to news articles, topics, users, and comments.  
+Originally developed as part of a Northcoders bootcamp project.
 
-📦 Setup
+---
 
-• Clone the repo:
+## 📦 Installation & Setup
 
-git clone https://github.com/Vnb123/be-nc-news.git
-cd be-nc-news
+1. Clone the repo:
 
-• Install dependencies:
+   git clone https://github.com/Vnb123/be-nc-news.git
+   cd be-nc-news
 
-npm install
+2. Install dependencies:
 
-• Create environment files in the project root:
+   npm install
 
-.env.development →
-PGDATABASE=nc_news
+3. Create environment files in the project root:
 
-.env.test →
-PGDATABASE=nc_news_test
+- `.env.development`
 
-• Setup databases:
+  PGDATABASE=nc_news
 
-npm run setup-dbs
-npm run seed
+- `.env.test`
 
-• Start the server:
+  PGDATABASE=nc_news_test
 
-npm run dev
+4. Setup databases and seed test data:
 
-🧪 Testing
+   npm run setup-dbs
+   npm run seed
 
-• Run all tests with:
+5. Start the dev server:
 
-npm test
+   npm run dev
 
-📖 API Documentation
+---
 
-API Documentation
+## 🌍 Hosted API (via Render)
 
-• Base URL when running locally:
-http://localhost:9090/api
-
-• Hosted version on Render:
+The API can be deployed on Render at:  
 https://be-nc-news.onrender.com/api
 
-The /api endpoint serves the endpoints.json file with a full list of available routes.
+- The `/api` endpoint serves the `endpoints.json` file with a full list of available routes.
+- **Note:** The Render service must be launched/deployed to be accessible.
+- You can also run it locally with `npm run dev`.
 
-Note: The Render service must be launched/deployed to be accessible.
+---
 
-🛠️ Tech Stack
+## 🧪 Testing
 
-• Node.js
-• Express.js
-• PostgreSQL (pg)
-• Jest & Supertest
+The project uses **Jest** and **Supertest**.  
+Run all tests with:
+
+    npm test
+
+---
+
+## ⚙️ Project Structure
+
+- `controllers/` → route handlers
+- `models/` → database queries
+- `db/` → database setup & seed files
+- `__tests__/` → integration & unit tests
+- `endpoints.json` → full documentation of API routes
+- `error-handling.md` → notes on error-handling strategy
+
+---
+
+## 🛠 Tech Stack
+
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Jest](https://jestjs.io/)
+- [Supertest](https://www.npmjs.com/package/supertest)
