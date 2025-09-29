@@ -71,8 +71,8 @@ Run all tests with:
 
 ## 🛠 Tech Stack
 
-- [Node.js](https://nodejs.org/)
-- [Express](https://expressjs.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Jest](https://jestjs.io/)
-- [Supertest](https://www.npmjs.com/package/supertest)
+[![Node.js](https://img.shields.io/badge/Node.js-AAF0D1?style=for-the-badge&logo=node.js&logoColor=339933)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-FFE0AC?style=for-the-badge&logo=express&logoColor=000000)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-C6E2FF?style=for-the-badge&logo=postgresql&logoColor=336791)](https://www.postgresql.org/)
+[![Jest](https://img.shields.io/badge/Jest-FFB7C5?style=for-the-badge&logo=jest&logoColor=C21325)](https://jestjs.io/)
+[![Supertest](https://img.shields.io/badge/Supertest-E0CFFF?style=for-the-badge&logo=javascript&logoColor=6D47C4)](https://www.npmjs.com/package/supertest)
